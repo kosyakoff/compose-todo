@@ -54,6 +54,7 @@ android {
 dependencies {
 
     implementation("com.google.dagger:hilt-android:2.46.1")
+    implementation("androidx.core:core-ktx:1.10.1")
     kapt("com.google.dagger:hilt-compiler:2.46.1")
 
     implementation("androidx.datastore:datastore-preferences:1.0.0")
