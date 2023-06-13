@@ -8,7 +8,7 @@ import test.app.todocompose.ui.screens.list.ListScreen
 import test.app.todocompose.util.Constants
 
 fun NavGraphBuilder.listComposable(
-    navigateToTaskScreen: (Int) -> Unit
+    navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
     composable(
         route = Constants.LIST_SCREEN,
