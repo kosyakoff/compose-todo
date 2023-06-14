@@ -1,5 +1,6 @@
 package test.app.todocompose.ui.screens.list
 
+import android.annotation.SuppressLint
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
@@ -15,6 +16,7 @@ import test.app.todocompose.ui.theme.fabBackgroundColor
 import test.app.todocompose.ui.viewModels.SharedViewModel
 import test.app.todocompose.util.SearchAppBarState
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ListScreen(
     navigateToTaskScreen: (taskId: Int) -> Unit,
@@ -31,7 +33,7 @@ fun ListScreen(
                 searchTextState = searchTextState
             )
         },
-        content = { values -> values.calculateTopPadding() },
+        content = { ListContent() },
         floatingActionButton = {
             ListFab(onFabClicked = navigateToTaskScreen)
         }
@@ -48,7 +50,7 @@ fun ListFab(
     ) {
         Icon(
             imageVector = Icons.Filled.Add,
-            contentDescription = stringResource(R.string.add_button),
+            contentDescription = stringResource(R.string.add_todo_button),
             tint = Color.White
         )
     }

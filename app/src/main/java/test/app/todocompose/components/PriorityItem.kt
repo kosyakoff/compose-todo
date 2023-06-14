@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import test.app.todocompose.data.models.Priority
 import test.app.todocompose.ui.theme.Dimensions
-import test.app.todocompose.ui.theme.Typography
 
 @Composable
 fun PriorityItem(priority: Priority) {
@@ -23,7 +22,7 @@ fun PriorityItem(priority: Priority) {
         Text(
             modifier = Modifier.padding(start = Dimensions.LARGE_PADDING),
             text = priority.name,
-            style = Typography.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface
         )
     }

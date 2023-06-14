@@ -37,7 +37,6 @@ import test.app.todocompose.R
 import test.app.todocompose.components.PriorityItem
 import test.app.todocompose.data.models.Priority
 import test.app.todocompose.ui.theme.Dimensions
-import test.app.todocompose.ui.theme.Typography
 import test.app.todocompose.ui.theme.topAppBarBackgroundColor
 import test.app.todocompose.ui.theme.topAppBarContentColor
 import test.app.todocompose.ui.viewModels.SharedViewModel
@@ -176,7 +175,7 @@ fun DeleteAllAction(onDeleteClicked: () -> Unit) {
             DropdownMenuItem(text = {
                 Text(
                     text = stringResource(id = R.string.list_action_delete_all),
-                    style = Typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(start = Dimensions.LARGE_PADDING)
                 )
             }, onClick = {
@@ -220,7 +219,8 @@ fun SearchAppBar(
             ),
             placeholder = {
                 Text(
-                    text = "Search", color = Color.White,
+                    text = stringResource(R.string.app_bar_search_placeholder_text),
+                    color = Color.White,
                     modifier = Modifier.alpha(0.6f),
                     fontSize = MaterialTheme.typography.labelLarge.fontSize
                 )
@@ -234,7 +234,7 @@ fun SearchAppBar(
                 IconButton(onClick = { /*TODO*/ }, modifier = Modifier.alpha(0.4f)) {
                     Icon(
                         imageVector = Icons.Filled.Search,
-                        contentDescription = "Search",
+                        contentDescription = stringResource(R.string.app_bar_search_icon_description_text),
                         tint = MaterialTheme.colorScheme.topAppBarContentColor
                     )
                 }
@@ -263,7 +263,7 @@ fun SearchAppBar(
                 }) {
                     Icon(
                         imageVector = Icons.Filled.Close,
-                        contentDescription = "Close",
+                        contentDescription = stringResource(R.string.app_bar_search_close_icon_description_text),
                         tint = MaterialTheme.colorScheme.topAppBarContentColor
                     )
                 }
