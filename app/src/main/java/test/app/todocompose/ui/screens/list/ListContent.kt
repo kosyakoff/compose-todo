@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -26,8 +28,15 @@ import test.app.todocompose.ui.theme.taskItemBackgroundColor
 import test.app.todocompose.ui.theme.taskItemTextColor
 
 @Composable
-fun ListContent() {
-
+fun ListContent(
+    tasks: List<ToDoTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
+    LazyColumn(modifier = Modifier, content = {
+        items(items = tasks, itemContent = {
+            TaskItem(toDoTask = it, navigateToTaskScreen = navigateToTaskScreen)
+        })
+    })
 }
 
 @Composable
@@ -37,7 +46,8 @@ fun TaskItem(
 ) {
     Surface(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(Dimensions.SMALL_PADDING),
         color = MaterialTheme.colorScheme.taskItemBackgroundColor,
         shape = RectangleShape,
         shadowElevation = Dimensions.TASK_ITEM_ELEVATION,
@@ -112,4 +122,13 @@ fun TaskItemPreviewLow() {
             description = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum ",
             priority = Priority.LOW
         ), navigateToTaskScreen = {})
+}
+
+@Preview
+@Composable
+fun ListContentPreview() {
+    ListContent(
+        listOf(ToDoTask(0, "1", "2", Priority.HIGH), ToDoTask(0, "1", "2", Priority.HIGH)),
+        {}
+    )
 }

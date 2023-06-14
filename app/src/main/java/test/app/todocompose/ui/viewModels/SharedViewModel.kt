@@ -28,8 +28,8 @@ class SharedViewModel @Inject constructor(private val repository: ToDoRepository
 
     fun getAllTasks() {
         viewModelScope.launch {
-            repository.getAllTask.collect {
-                _allTask.update { it }
+            repository.getAllTask.collect { tasks ->
+                _allTask.update { tasks }
             }
         }
     }
