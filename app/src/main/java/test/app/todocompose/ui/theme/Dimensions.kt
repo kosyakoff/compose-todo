@@ -8,5 +8,9 @@ object Dimensions {
     val SMALL_PADDING = 6.dp
 
     val PRIORITY_INDICATOR_SIZE = 16.dp
+
+    val TOP_APP_BAR_HEIGHT = 64.dp
+
+    val SEARCH_APP_BAR_ELEVATION = 4.dp
 }
 
