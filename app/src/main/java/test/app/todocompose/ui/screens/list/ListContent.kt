@@ -6,9 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -32,11 +31,11 @@ fun ListContent(
     tasks: List<ToDoTask>,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    LazyColumn(modifier = Modifier, content = {
-        items(items = tasks, itemContent = {
-            TaskItem(toDoTask = it, navigateToTaskScreen = navigateToTaskScreen)
-        })
-    })
+    if (tasks.any()) {
+        DisplayTasks(tasks, navigateToTaskScreen)
+    } else {
+        EmptyContent()
+    }
 }
 
 @Composable
@@ -78,8 +77,7 @@ fun TaskItem(
                 ) {
                     Canvas(
                         modifier = Modifier
-                            .width(Dimensions.PRIORITY_INDICATOR_SIZE)
-                            .height(Dimensions.PRIORITY_INDICATOR_SIZE)
+                            .size(Dimensions.PRIORITY_INDICATOR_SIZE)
                     ) {
                         drawCircle(
                             color = toDoTask.priority.color
@@ -100,7 +98,20 @@ fun TaskItem(
 }
 
 @Composable
-@Preview
+fun DisplayTasks(
+    tasks: List<ToDoTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
+    LazyColumn(modifier = Modifier, content = {
+        items(items = tasks, itemContent = {
+            TaskItem(toDoTask = it, navigateToTaskScreen = navigateToTaskScreen)
+        })
+    })
+}
+
+@Preview("Default", "Task")
+@Preview("DarkMode", "Task", uiMode = UI_MODE_NIGHT_YES)
+@Composable
 fun TaskItemPreviewHigh() {
     TaskItem(
         toDoTask = ToDoTask(
@@ -112,8 +123,9 @@ fun TaskItemPreviewHigh() {
         ), navigateToTaskScreen = {})
 }
 
+@Preview("Default", "Task")
+@Preview("DarkMode", "Task", uiMode = UI_MODE_NIGHT_YES)
 @Composable
-@Preview(uiMode = UI_MODE_NIGHT_YES)
 fun TaskItemPreviewLow() {
     TaskItem(
         toDoTask = ToDoTask(
@@ -124,11 +136,22 @@ fun TaskItemPreviewLow() {
         ), navigateToTaskScreen = {})
 }
 
-@Preview
+@Preview("Default", "List")
+@Preview("DarkMode", "List", uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun ListContentPreview() {
     ListContent(
         listOf(ToDoTask(0, "1", "2", Priority.HIGH), ToDoTask(0, "1", "2", Priority.HIGH)),
+        {}
+    )
+}
+
+@Preview("Default", "List")
+@Preview("DarkMode", "List", uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun EmptyListContentPreview() {
+    ListContent(
+        listOf(),
         {}
     )
 }

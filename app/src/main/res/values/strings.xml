@@ -8,4 +8,5 @@
     <string name="app_bar_search_placeholder_text">Search</string>
     <string name="app_bar_search_icon_description_text">Search</string>
     <string name="app_bar_search_close_icon_description_text">Close</string>
+    <string name="empty_content_no_text_found">No text found</string>
 </resources>
