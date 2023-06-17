@@ -120,7 +120,7 @@ fun DisplayTasks(
 @Preview("Default", "Task")
 @Preview("DarkMode", "Task", uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun TaskItemPreviewHigh() {
+private fun TaskItemPreviewHigh() {
     TaskItem(
         toDoTask = ToDoTask(
             id = 0,
@@ -134,7 +134,7 @@ fun TaskItemPreviewHigh() {
 @Preview("Default", "Task")
 @Preview("DarkMode", "Task", uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun TaskItemPreviewLow() {
+private fun TaskItemPreviewLow() {
     TaskItem(
         toDoTask = ToDoTask(
             id = 0,
@@ -147,7 +147,7 @@ fun TaskItemPreviewLow() {
 @Preview("Default", "List")
 @Preview("DarkMode", "List", uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun ListContentPreview() {
+private fun ListContentPreview() {
     ListContent(
         RequestState.Success(
             listOf(
@@ -162,7 +162,7 @@ fun ListContentPreview() {
 @Preview("Default", "List")
 @Preview("DarkMode", "List", uiMode = UI_MODE_NIGHT_YES, showBackground = true, backgroundColor = 0x050505)
 @Composable
-fun EmptyListContentPreview() {
+private fun EmptyListContentPreview() {
     ListContent(
         RequestState.Success(listOf()),
         {}

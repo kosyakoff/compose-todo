@@ -278,12 +278,12 @@ fun SearchAppBar(
 
 @Composable
 @Preview
-fun DefaultListAppBarPreview() {
+private fun DefaultListAppBarPreview() {
     DefaultListAppBar(onSearchClicked = {}, onSortClicked = {}, onDeleteClicked = {})
 }
 
 @Composable
 @Preview
-fun SearchAppBarPreview() {
+private fun SearchAppBarPreview() {
     SearchAppBar("Search", {}, {}, {})
 }

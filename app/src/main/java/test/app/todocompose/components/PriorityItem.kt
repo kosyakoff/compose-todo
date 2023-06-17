@@ -30,6 +30,6 @@ fun PriorityItem(priority: Priority) {
 
 @Composable
 @Preview
-fun PriorityItemPreview() {
+private fun PriorityItemPreview() {
     PriorityItem(Priority.LOW)
 }

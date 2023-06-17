@@ -51,7 +51,7 @@ fun EmptyContent() {
 )
 @Preview(name = "Full Preview", showSystemUi = true)
 @Composable
-fun EmptyContentPreview() {
+private fun EmptyContentPreview() {
     EmptyContent()
 }
 
