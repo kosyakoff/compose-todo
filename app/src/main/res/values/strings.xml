@@ -1,12 +1,13 @@
 <resources>
     <string name="app_name">ToDoCompose</string>
-    <string name="add_todo_button">Add Button</string>
+    <string name="list_add_todo_button">Add Button</string>
     <string name="list_title">Tasks</string>
     <string name="list_action_search">Search Text</string>
     <string name="list_action_delete_all">Delete All</string>
     <string name="list_action_sort">Sort Tasks</string>
-    <string name="app_bar_search_placeholder_text">Search</string>
-    <string name="app_bar_search_icon_description_text">Search</string>
-    <string name="app_bar_search_close_icon_description_text">Close</string>
-    <string name="empty_content_no_text_found">No text found</string>
+    <string name="list_app_bar_search_placeholder_text">Search</string>
+    <string name="list_app_bar_search_icon_description_text">Search</string>
+    <string name="list_app_bar_search_close_icon_description_text">Close</string>
+    <string name="list_empty_content_no_text_found">No text found</string>
+    <string name="task_app_bar_new_task_add_task_text">Add Task</string>
 </resources>

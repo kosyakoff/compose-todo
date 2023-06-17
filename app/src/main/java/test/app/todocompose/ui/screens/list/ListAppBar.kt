@@ -219,7 +219,7 @@ fun SearchAppBar(
             ),
             placeholder = {
                 Text(
-                    text = stringResource(R.string.app_bar_search_placeholder_text),
+                    text = stringResource(R.string.list_app_bar_search_placeholder_text),
                     color = Color.White,
                     modifier = Modifier.alpha(0.6f),
                     fontSize = MaterialTheme.typography.labelLarge.fontSize
@@ -234,7 +234,7 @@ fun SearchAppBar(
                 IconButton(onClick = { /*TODO*/ }, modifier = Modifier.alpha(0.4f)) {
                     Icon(
                         imageVector = Icons.Filled.Search,
-                        contentDescription = stringResource(R.string.app_bar_search_icon_description_text),
+                        contentDescription = stringResource(R.string.list_app_bar_search_icon_description_text),
                         tint = MaterialTheme.colorScheme.topAppBarContentColor
                     )
                 }
@@ -263,7 +263,7 @@ fun SearchAppBar(
                 }) {
                     Icon(
                         imageVector = Icons.Filled.Close,
-                        contentDescription = stringResource(R.string.app_bar_search_close_icon_description_text),
+                        contentDescription = stringResource(R.string.list_app_bar_search_close_icon_description_text),
                         tint = MaterialTheme.colorScheme.topAppBarContentColor
                     )
                 }

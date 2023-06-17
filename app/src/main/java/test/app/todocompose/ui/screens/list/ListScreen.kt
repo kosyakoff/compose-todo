@@ -68,7 +68,7 @@ fun ListFab(
     ) {
         Icon(
             imageVector = Icons.Filled.Add,
-            contentDescription = stringResource(R.string.add_todo_button),
+            contentDescription = stringResource(R.string.list_add_todo_button),
             tint = Color.White
         )
     }

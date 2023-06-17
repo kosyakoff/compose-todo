@@ -36,7 +36,7 @@ fun EmptyContent() {
             tint = MediumGray
         )
         Text(
-            text = stringResource(R.string.empty_content_no_text_found),
+            text = stringResource(R.string.list_empty_content_no_text_found),
             color = MediumGray,
             fontWeight = FontWeight.Bold,
             fontSize = MaterialTheme.typography.titleLarge.fontSize
