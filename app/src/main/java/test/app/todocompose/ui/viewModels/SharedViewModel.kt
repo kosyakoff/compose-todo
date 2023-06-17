@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import test.app.todocompose.data.models.ToDoTask
 import test.app.todocompose.data.repositories.ToDoRepository
+import test.app.todocompose.util.RequestState
 import test.app.todocompose.util.SearchAppBarState
 import javax.inject.Inject
 
@@ -22,15 +23,20 @@ class SharedViewModel @Inject constructor(private val repository: ToDoRepository
 
     val searchTextState: MutableState<String> = mutableStateOf("")
 
-    private val _allTask = MutableStateFlow<List<ToDoTask>>(emptyList())
+    private val _allTask = MutableStateFlow<RequestState<List<ToDoTask>>>(RequestState.Idle)
 
     val allTask = _allTask.asStateFlow()
 
     fun getAllTasks() {
-        viewModelScope.launch {
-            repository.getAllTask.collect { tasks ->
-                _allTask.update { tasks }
+        _allTask.update { RequestState.Loading }
+        try {
+            viewModelScope.launch {
+                repository.getAllTask.collect { tasks ->
+                    _allTask.update { RequestState.Success(tasks) }
+                }
             }
+        } catch (ex: Throwable) {
+            _allTask.update { RequestState.Error(error = ex) }
         }
     }
 }

@@ -25,16 +25,24 @@ import test.app.todocompose.data.models.ToDoTask
 import test.app.todocompose.ui.theme.Dimensions
 import test.app.todocompose.ui.theme.taskItemBackgroundColor
 import test.app.todocompose.ui.theme.taskItemTextColor
+import test.app.todocompose.util.RequestState
 
 @Composable
 fun ListContent(
-    tasks: List<ToDoTask>,
+    requestState: RequestState<List<ToDoTask>>,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    if (tasks.any()) {
-        DisplayTasks(tasks, navigateToTaskScreen)
-    } else {
-        EmptyContent()
+    when (requestState) {
+        is RequestState.Error -> {}
+        RequestState.Idle -> {}
+        RequestState.Loading -> {}
+        is RequestState.Success -> {
+            if (requestState.data.any()) {
+                DisplayTasks(requestState.data, navigateToTaskScreen)
+            } else {
+                EmptyContent()
+            }
+        }
     }
 }
 
@@ -141,17 +149,22 @@ fun TaskItemPreviewLow() {
 @Composable
 fun ListContentPreview() {
     ListContent(
-        listOf(ToDoTask(0, "1", "2", Priority.HIGH), ToDoTask(0, "1", "2", Priority.HIGH)),
+        RequestState.Success(
+            listOf(
+                ToDoTask(0, "1", "2", Priority.HIGH),
+                ToDoTask(0, "1", "2", Priority.HIGH)
+            )
+        ),
         {}
     )
 }
 
 @Preview("Default", "List")
-@Preview("DarkMode", "List", uiMode = UI_MODE_NIGHT_YES)
+@Preview("DarkMode", "List", uiMode = UI_MODE_NIGHT_YES, showBackground = true, backgroundColor = 0x050505)
 @Composable
 fun EmptyListContentPreview() {
     ListContent(
-        listOf(),
+        RequestState.Success(listOf()),
         {}
     )
 }

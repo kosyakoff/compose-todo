@@ -47,7 +47,7 @@ fun ListScreen(
         content = { paddings ->
             Surface(modifier = Modifier.padding(paddings)) {
                 ListContent(
-                    tasks = allTasks,
+                    requestState = allTasks,
                     navigateToTaskScreen = navigateToTaskScreen
                 )
             }
