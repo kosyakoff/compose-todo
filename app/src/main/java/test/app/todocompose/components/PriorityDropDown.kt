@@ -50,7 +50,11 @@ fun PriorityDropDown(
             .fillMaxWidth()
             .height(Dimensions.PRIORITY_DROP_DOWN_HEIGHT)
             .clickable { expanded = true }
-            .border(width = 1.dp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)),
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                shape = MaterialTheme.shapes.small
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Canvas(
@@ -78,7 +82,7 @@ fun PriorityDropDown(
             expanded = expanded,
             onDismissRequest = { expanded = false },
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(fraction = 0.94f)
                 .background(MaterialTheme.colorScheme.surface),
         ) {
             DropdownMenuItem(text = { PriorityItem(priority = Priority.LOW) }, onClick = {
@@ -102,7 +106,7 @@ fun PriorityDropDown(
 
 
 @Composable
-@Preview(Constants.PREVIEW_DEFAULT)
+@Preview(Constants.PREVIEW_DEFAULT, showBackground = true)
 @Preview(Constants.PREVIEW_DARK_MODE, uiMode = UI_MODE_NIGHT_YES)
 private fun PriorityDropDownPreview() {
     PriorityDropDown(priority = Priority.HIGH, onPrioritySelected = {})

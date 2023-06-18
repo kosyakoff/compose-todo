@@ -12,4 +12,7 @@ object Constants {
 
     const val PREVIEW_DEFAULT = "Default"
     const val PREVIEW_DARK_MODE = "DarkMode"
+
+    const val PREVIEW_LOREM_LARGE = 100
+    const val PREVIEW_LOREM_SMALL = 30
 }
