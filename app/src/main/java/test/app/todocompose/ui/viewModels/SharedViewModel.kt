@@ -18,13 +18,14 @@ import javax.inject.Inject
 @HiltViewModel
 class SharedViewModel @Inject constructor(private val repository: ToDoRepository) : ViewModel() {
 
-    val searchAppBarState: MutableState<SearchAppBarState> =
-        mutableStateOf(SearchAppBarState.CLOSED)
-
-    val searchTextState: MutableState<String> = mutableStateOf("")
 
     private val _allTask = MutableStateFlow<RequestState<List<ToDoTask>>>(RequestState.Idle)
+    private val _selectedTask: MutableStateFlow<ToDoTask?> = MutableStateFlow(null)
 
+    val selectedTask = _selectedTask.asStateFlow()
+    val searchAppBarState: MutableState<SearchAppBarState> =
+        mutableStateOf(SearchAppBarState.CLOSED)
+    val searchTextState: MutableState<String> = mutableStateOf("")
     val allTask = _allTask.asStateFlow()
 
     fun getAllTasks() {
@@ -37,6 +38,14 @@ class SharedViewModel @Inject constructor(private val repository: ToDoRepository
             }
         } catch (ex: Throwable) {
             _allTask.update { RequestState.Error(error = ex) }
+        }
+    }
+
+    fun getSelectedTask(taskId: Int) {
+        viewModelScope.launch {
+            repository.getSelectedTask(taskId).collect { task ->
+                _selectedTask.update { task }
+            }
         }
     }
 }
