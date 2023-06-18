@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -12,6 +13,7 @@ import kotlinx.coroutines.launch
 import test.app.todocompose.data.models.Priority
 import test.app.todocompose.data.models.ToDoTask
 import test.app.todocompose.data.repositories.ToDoRepository
+import test.app.todocompose.util.Action
 import test.app.todocompose.util.Constants
 import test.app.todocompose.util.RequestState
 import test.app.todocompose.util.SearchAppBarState
@@ -33,6 +35,8 @@ class SharedViewModel @Inject constructor(private val repository: ToDoRepository
     val title: MutableState<String> = mutableStateOf("")
     val description: MutableState<String> = mutableStateOf("")
     val priority: MutableState<Priority> = mutableStateOf(Priority.LOW)
+
+    val action: MutableState<Action> = mutableStateOf(Action.NO_ACTION)
 
     fun getAllTasks() {
         _allTask.update { RequestState.Loading }
@@ -76,4 +80,31 @@ class SharedViewModel @Inject constructor(private val repository: ToDoRepository
     }
 
     fun validateFields(): Boolean = title.value.isNotEmpty() && description.value.isNotEmpty()
+
+    fun handleDatabaseActions(action: Action) {
+        when (action) {
+            Action.ADD -> {
+                addTask()
+            }
+
+            Action.UPDATE -> {}
+            Action.DELETE -> {}
+            Action.DELETE_ALL -> {}
+            Action.UNDO -> {}
+            Action.NO_ACTION -> {}
+        }
+
+        this.action.value = Action.NO_ACTION
+    }
+
+    private fun addTask() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val toDoTask = ToDoTask(
+                title = title.value,
+                description = description.value,
+                priority = priority.value
+            )
+            repository.addTask(toDoTask)
+        }
+    }
 }
