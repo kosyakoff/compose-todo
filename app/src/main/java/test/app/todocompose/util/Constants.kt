@@ -15,4 +15,6 @@ object Constants {
 
     const val PREVIEW_LOREM_LARGE = 100
     const val PREVIEW_LOREM_SMALL = 30
+
+    const val MAX_TITLE_LENGTH = 20
 }

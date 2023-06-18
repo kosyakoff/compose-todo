@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import test.app.todocompose.data.models.Priority
 import test.app.todocompose.data.models.ToDoTask
 import test.app.todocompose.data.repositories.ToDoRepository
+import test.app.todocompose.util.Constants
 import test.app.todocompose.util.RequestState
 import test.app.todocompose.util.SearchAppBarState
 import javax.inject.Inject
@@ -65,6 +66,12 @@ class SharedViewModel @Inject constructor(private val repository: ToDoRepository
             title.value = ""
             description.value = ""
             priority.value = Priority.LOW
+        }
+    }
+
+    fun updateTitle(newTitle: String) {
+        if (newTitle.length < Constants.MAX_TITLE_LENGTH) {
+            title.value = newTitle
         }
     }
 }
