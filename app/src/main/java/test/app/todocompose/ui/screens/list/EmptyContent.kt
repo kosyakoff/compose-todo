@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import test.app.todocompose.R
 import test.app.todocompose.ui.theme.MediumGray
+import test.app.todocompose.util.Constants
 
 @Composable
 fun EmptyContent() {
@@ -44,9 +45,9 @@ fun EmptyContent() {
     }
 }
 
-@Preview(name = "Light Mode")
+@Preview(name = Constants.PREVIEW_DEFAULT)
 @Preview(
-    name = "Dark Mode",
+    name = Constants.PREVIEW_DARK_MODE,
     uiMode = UI_MODE_NIGHT_YES
 )
 @Preview(name = "Full Preview", showSystemUi = true)

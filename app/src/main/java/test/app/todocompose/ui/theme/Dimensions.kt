@@ -14,5 +14,7 @@ object Dimensions {
     val SEARCH_APP_BAR_ELEVATION = 4.dp
 
     val TASK_ITEM_ELEVATION = 2.dp
+
+    val PRIORITY_DROP_DOWN_HEIGHT = 60.dp
 }
 

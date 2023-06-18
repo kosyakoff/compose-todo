@@ -9,4 +9,7 @@ object Constants {
 
     const val LIST_ARGUMENT_KEY = "action"
     const val TASK_ARGUMENT_KEY = "taskId"
+
+    const val PREVIEW_DEFAULT = "Default"
+    const val PREVIEW_DARK_MODE = "DarkMode"
 }

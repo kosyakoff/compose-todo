@@ -23,6 +23,7 @@ import test.app.todocompose.data.models.ToDoTask
 import test.app.todocompose.ui.theme.topAppBarBackgroundColor
 import test.app.todocompose.ui.theme.topAppBarContentColor
 import test.app.todocompose.util.Action
+import test.app.todocompose.util.Constants
 
 @Composable
 fun TaskAppBar(navigateToListScreen: (Action) -> Unit, selectedTask: ToDoTask?) {
@@ -133,15 +134,15 @@ fun UpdateAction(onUpdateClicked: (Action) -> Unit) {
     }
 }
 
-@Preview("Default")
-@Preview("DarkMode", uiMode = UI_MODE_NIGHT_YES)
+@Preview(Constants.PREVIEW_DEFAULT)
+@Preview(Constants.PREVIEW_DARK_MODE, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun NewTaskAppBarPreview() {
     NewTaskAppBar(navigateToListScreen = {})
 }
 
-@Preview("Default")
-@Preview("DarkMode", uiMode = UI_MODE_NIGHT_YES)
+@Preview(Constants.PREVIEW_DEFAULT)
+@Preview(Constants.PREVIEW_DARK_MODE, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun ExistingTaskAppBarPreview() {
     ExistingTaskAppBar(

@@ -25,6 +25,7 @@ import test.app.todocompose.data.models.ToDoTask
 import test.app.todocompose.ui.theme.Dimensions
 import test.app.todocompose.ui.theme.taskItemBackgroundColor
 import test.app.todocompose.ui.theme.taskItemTextColor
+import test.app.todocompose.util.Constants
 import test.app.todocompose.util.RequestState
 
 @Composable
@@ -117,8 +118,8 @@ fun DisplayTasks(
     })
 }
 
-@Preview("Default", "Task")
-@Preview("DarkMode", "Task", uiMode = UI_MODE_NIGHT_YES)
+@Preview(Constants.PREVIEW_DEFAULT, "Task")
+@Preview(Constants.PREVIEW_DARK_MODE, "Task", uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun TaskItemPreviewHigh() {
     TaskItem(
@@ -131,8 +132,8 @@ private fun TaskItemPreviewHigh() {
         ), navigateToTaskScreen = {})
 }
 
-@Preview("Default", "Task")
-@Preview("DarkMode", "Task", uiMode = UI_MODE_NIGHT_YES)
+@Preview(Constants.PREVIEW_DEFAULT, "Task")
+@Preview(Constants.PREVIEW_DARK_MODE, "Task", uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun TaskItemPreviewLow() {
     TaskItem(
@@ -144,8 +145,8 @@ private fun TaskItemPreviewLow() {
         ), navigateToTaskScreen = {})
 }
 
-@Preview("Default", "List")
-@Preview("DarkMode", "List", uiMode = UI_MODE_NIGHT_YES)
+@Preview(Constants.PREVIEW_DEFAULT, "List")
+@Preview(Constants.PREVIEW_DARK_MODE, "List", uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun ListContentPreview() {
     ListContent(
@@ -159,8 +160,8 @@ private fun ListContentPreview() {
     )
 }
 
-@Preview("Default", "List")
-@Preview("DarkMode", "List", uiMode = UI_MODE_NIGHT_YES, showBackground = true, backgroundColor = 0x050505)
+@Preview(Constants.PREVIEW_DEFAULT, "List")
+@Preview(Constants.PREVIEW_DARK_MODE, "List", uiMode = UI_MODE_NIGHT_YES, showBackground = true, backgroundColor = 0x050505)
 @Composable
 private fun EmptyListContentPreview() {
     ListContent(
