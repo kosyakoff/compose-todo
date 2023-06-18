@@ -5,16 +5,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import test.app.todocompose.data.models.Priority
 import test.app.todocompose.data.models.ToDoTask
+import test.app.todocompose.ui.viewModels.SharedViewModel
 import test.app.todocompose.util.Action
-import test.app.todocompose.util.Constants
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun TaskScreen(navigateToListScreen: (Action) -> Unit, selectedTask: ToDoTask?) {
+fun TaskScreen(
+    navigateToListScreen: (Action) -> Unit,
+    selectedTask: ToDoTask?,
+    sharedViewModel: SharedViewModel
+) {
+    val title: String by sharedViewModel.title
+    val description: String by sharedViewModel.description
+    val priority: Priority by sharedViewModel.priority
 
     Scaffold(
         topBar = {
@@ -23,12 +30,18 @@ fun TaskScreen(navigateToListScreen: (Action) -> Unit, selectedTask: ToDoTask?) 
         content = { paddingValues ->
             Surface(modifier = Modifier.padding(paddingValues)) {
                 TaskContent(
-                    title = LoremIpsum(words = Constants.PREVIEW_LOREM_LARGE).values.joinToString(),
-                    onTitleChange = {},
-                    description = LoremIpsum(words = Constants.PREVIEW_LOREM_LARGE).values.joinToString(),
-                    onPrioritySelected = {},
-                    onDescriptionChange = {},
-                    priority = Priority.HIGH
+                    title = title,
+                    onTitleChange = {
+                        sharedViewModel.title.value = it
+                    },
+                    description = description,
+                    onPrioritySelected = {
+                        sharedViewModel.priority.value = it
+                    },
+                    onDescriptionChange = {
+                        sharedViewModel.description.value = it
+                    },
+                    priority = priority
                 )
             }
         })
