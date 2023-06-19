@@ -1,6 +1,7 @@
 package test.app.todocompose.ui.screens.list
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -10,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.launch
 import test.app.todocompose.R
@@ -43,17 +46,20 @@ fun ListScreen(
     val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
     val searchTextState: String by sharedViewModel.searchTextState
     val allTasks by sharedViewModel.allTask.collectAsState()
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackBarHostState = remember { SnackbarHostState() }
 
     DisplaySnackBar(
-        snackbarHostState = snackbarHostState,
+        snackBarHostState = snackBarHostState,
         handleDatabaseAction = { sharedViewModel.handleDatabaseActions(action) },
         taskTitle = sharedViewModel.title.value,
-        action = action
+        action = action,
+        onUndoClicked = {
+            sharedViewModel.action.value = it
+        }
     )
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { SnackbarHost(snackBarHostState) },
         topBar = {
             ListAppBar(
                 sharedViewModel = sharedViewModel,
@@ -93,24 +99,45 @@ fun ListFab(
 
 @Composable
 fun DisplaySnackBar(
-    snackbarHostState: SnackbarHostState,
+    snackBarHostState: SnackbarHostState,
     handleDatabaseAction: () -> Unit,
     taskTitle: String,
-    action: Action
+    action: Action,
+    onUndoClicked: (Action) -> Unit
 ) {
     handleDatabaseAction()
-
-    val okText = stringResource(
-        R.string.general_ok
-    )
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = action) {
         if (action != Action.NO_ACTION) {
             scope.launch {
-                val snackBarResult = snackbarHostState.showSnackbar(
-                    message = "${action.name}: $taskTitle", actionLabel = okText
+                val snackBarResult = snackBarHostState.showSnackbar(
+                    message = "${action.name}: $taskTitle",
+                    actionLabel = setActionLabel(context, action)
+                )
+                undoDeletedTask(
+                    snackBarResult = snackBarResult,
+                    action = action,
+                    onUndoClicked = onUndoClicked
                 )
             }
         }
+    }
+}
+
+private fun setActionLabel(context: Context, action: Action): String =
+    if (action == Action.DELETE) {
+        context.getString(R.string.general_undo)
+    } else {
+        context.getString(R.string.general_ok)
+    }
+
+private fun undoDeletedTask(
+    snackBarResult: SnackbarResult,
+    onUndoClicked: (Action) -> Unit,
+    action: Action
+) {
+    if (snackBarResult == SnackbarResult.ActionPerformed && action == Action.DELETE) {
+        onUndoClicked(Action.UNDO)
     }
 }
