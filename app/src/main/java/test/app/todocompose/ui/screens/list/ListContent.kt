@@ -27,23 +27,41 @@ import test.app.todocompose.ui.theme.taskItemBackgroundColor
 import test.app.todocompose.ui.theme.taskItemTextColor
 import test.app.todocompose.util.Constants
 import test.app.todocompose.util.RequestState
+import test.app.todocompose.util.SearchAppBarState
 
 @Composable
 fun ListContent(
-    requestState: RequestState<List<ToDoTask>>,
+    allTasksRequestState: RequestState<List<ToDoTask>>,
+    searchedTasksRequestState: RequestState<List<ToDoTask>>,
+    searchAppBarState: SearchAppBarState,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    when (requestState) {
-        is RequestState.Error -> {}
-        RequestState.Idle -> {}
-        RequestState.Loading -> {}
-        is RequestState.Success -> {
-            if (requestState.data.any()) {
-                DisplayTasks(requestState.data, navigateToTaskScreen)
-            } else {
-                EmptyContent()
-            }
+    if (searchAppBarState == SearchAppBarState.TRIGGERED) {
+        if (searchedTasksRequestState is RequestState.Success) {
+            HandleListContent(
+                tasks = searchedTasksRequestState.data,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
         }
+    } else {
+        if (allTasksRequestState is RequestState.Success) {
+            HandleListContent(
+                tasks = allTasksRequestState.data,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+        }
+    }
+}
+
+@Composable
+fun HandleListContent(
+    tasks: List<ToDoTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
+    if (tasks.any()) {
+        DisplayTasks(tasks, navigateToTaskScreen)
+    } else {
+        EmptyContent()
     }
 }
 
@@ -156,16 +174,26 @@ private fun ListContentPreview() {
                 ToDoTask(0, "1", "2", Priority.HIGH)
             )
         ),
+        RequestState.Idle,
+        SearchAppBarState.CLOSED,
         {}
     )
 }
 
 @Preview(Constants.PREVIEW_DEFAULT, "List")
-@Preview(Constants.PREVIEW_DARK_MODE, "List", uiMode = UI_MODE_NIGHT_YES, showBackground = true, backgroundColor = 0x050505)
+@Preview(
+    Constants.PREVIEW_DARK_MODE,
+    "List",
+    uiMode = UI_MODE_NIGHT_YES,
+    showBackground = true,
+    backgroundColor = 0x050505
+)
 @Composable
 private fun EmptyListContentPreview() {
     ListContent(
         RequestState.Success(listOf()),
+        RequestState.Idle,
+        SearchAppBarState.CLOSED,
         {}
     )
 }

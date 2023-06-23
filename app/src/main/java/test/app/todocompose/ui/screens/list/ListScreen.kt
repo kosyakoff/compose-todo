@@ -46,6 +46,7 @@ fun ListScreen(
     val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
     val searchTextState: String by sharedViewModel.searchTextState
     val allTasks by sharedViewModel.allTask.collectAsState()
+    val searchedTasks by sharedViewModel.searchedTasks.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
 
     DisplaySnackBar(
@@ -70,8 +71,10 @@ fun ListScreen(
         content = { paddings ->
             Surface(modifier = Modifier.padding(paddings)) {
                 ListContent(
-                    requestState = allTasks,
-                    navigateToTaskScreen = navigateToTaskScreen
+                    allTasksRequestState = allTasks,
+                    searchedTasksRequestState = searchedTasks,
+                    navigateToTaskScreen = navigateToTaskScreen,
+                    searchAppBarState = searchAppBarState
                 )
             }
         },
