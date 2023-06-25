@@ -5,10 +5,12 @@
     <string name="list_action_search">Search Text</string>
     <string name="list_action_delete_all">Delete All</string>
     <string name="list_action_sort">Sort Tasks</string>
+    <string name="list_delete_all_tasks">Remove all tasks?</string>
+    <string name="list_delete_all_tasks_confirmation">Are you sure you want to remove all tasks? This action can\'t be undone</string>
     <string name="list_app_bar_search_placeholder_text">Search</string>
     <string name="list_app_bar_search_icon_description_text">Search</string>
     <string name="list_app_bar_search_close_icon_description_text">Close</string>
-    <string name="list_empty_content_no_text_found">No text found</string>
+    <string name="list_empty_content_no_text_found">No tasks found</string>
     <string name="task_app_bar_new_task_add_task_text">Add Task</string>
     <string name="task_content_title_title">Title</string>
     <string name="task_content_description_title">Description</string>
