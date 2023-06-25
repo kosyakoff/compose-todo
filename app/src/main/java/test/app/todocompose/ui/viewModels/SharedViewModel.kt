@@ -7,7 +7,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import test.app.todocompose.data.models.Priority
@@ -31,6 +35,10 @@ class SharedViewModel @Inject constructor(
 
     private val _allTask = MutableStateFlow<RequestState<List<ToDoTask>>>(RequestState.Idle)
 
+    private val _sortState: MutableStateFlow<RequestState<Priority>> =
+        MutableStateFlow(RequestState.Idle)
+
+    val sortState = _sortState.asStateFlow()
     val selectedTask = _selectedTask.asStateFlow()
     val searchAppBarState: MutableState<SearchAppBarState> =
         mutableStateOf(SearchAppBarState.CLOSED)
@@ -44,6 +52,31 @@ class SharedViewModel @Inject constructor(
     val priority: MutableState<Priority> = mutableStateOf(Priority.LOW)
 
     val action: MutableState<Action> = mutableStateOf(Action.NO_ACTION)
+
+    val lowPriorityTasks: StateFlow<List<ToDoTask>> = repository.sortByLowPriority.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = emptyList()
+    )
+
+    val highPriorityTasks: StateFlow<List<ToDoTask>> = repository.sortByHighPriority.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = emptyList()
+    )
+
+    fun readSortState() {
+        _sortState.update { RequestState.Loading }
+        try {
+            viewModelScope.launch {
+                dataStoreRepository.readSortState.map { Priority.valueOf(it) }.collect { state ->
+                    _sortState.update { RequestState.Success(state) }
+                }
+            }
+        } catch (ex: Throwable) {
+            _sortState.update { RequestState.Error(error = ex) }
+        }
+    }
 
     fun getAllTasks() {
         _allTask.update { RequestState.Loading }
@@ -128,6 +161,12 @@ class SharedViewModel @Inject constructor(
         }
 
         this.action.value = Action.NO_ACTION
+    }
+
+    fun persistSortState(priority: Priority) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreRepository.persistSortState(priority = priority)
+        }
     }
 
     private fun addTask() {

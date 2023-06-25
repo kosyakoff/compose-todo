@@ -33,20 +33,46 @@ import test.app.todocompose.util.SearchAppBarState
 fun ListContent(
     allTasksRequestState: RequestState<List<ToDoTask>>,
     searchedTasksRequestState: RequestState<List<ToDoTask>>,
+    lowPriorityTasks: List<ToDoTask>,
+    highPriorityTasks: List<ToDoTask>,
+    sortState: RequestState<Priority>,
     searchAppBarState: SearchAppBarState,
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
-    if (searchAppBarState == SearchAppBarState.TRIGGERED) {
-        if (searchedTasksRequestState is RequestState.Success) {
+
+    if (sortState !is RequestState.Success) {
+        return
+    }
+
+    when {
+        searchAppBarState == SearchAppBarState.TRIGGERED -> {
+            if (searchedTasksRequestState is RequestState.Success) {
+                HandleListContent(
+                    tasks = searchedTasksRequestState.data,
+                    navigateToTaskScreen = navigateToTaskScreen
+                )
+            }
+        }
+
+        sortState.data == Priority.NONE -> {
+            if (allTasksRequestState is RequestState.Success) {
+                HandleListContent(
+                    tasks = allTasksRequestState.data,
+                    navigateToTaskScreen = navigateToTaskScreen
+                )
+            }
+        }
+
+        sortState.data == Priority.LOW -> {
             HandleListContent(
-                tasks = searchedTasksRequestState.data,
+                tasks = lowPriorityTasks,
                 navigateToTaskScreen = navigateToTaskScreen
             )
         }
-    } else {
-        if (allTasksRequestState is RequestState.Success) {
+
+        sortState.data == Priority.HIGH -> {
             HandleListContent(
-                tasks = allTasksRequestState.data,
+                tasks = highPriorityTasks,
                 navigateToTaskScreen = navigateToTaskScreen
             )
         }
@@ -168,15 +194,18 @@ private fun TaskItemPreviewLow() {
 @Composable
 private fun ListContentPreview() {
     ListContent(
-        RequestState.Success(
+        allTasksRequestState = RequestState.Success(
             listOf(
                 ToDoTask(0, "1", "2", Priority.HIGH),
                 ToDoTask(0, "1", "2", Priority.HIGH)
             )
         ),
-        RequestState.Idle,
-        SearchAppBarState.CLOSED,
-        {}
+        searchAppBarState = SearchAppBarState.CLOSED,
+        highPriorityTasks = emptyList(),
+        sortState = RequestState.Success(Priority.NONE),
+        lowPriorityTasks = emptyList(),
+        searchedTasksRequestState = RequestState.Success(emptyList()),
+        navigateToTaskScreen = {}
     )
 }
 
@@ -192,8 +221,11 @@ private fun ListContentPreview() {
 private fun EmptyListContentPreview() {
     ListContent(
         RequestState.Success(listOf()),
-        RequestState.Idle,
-        SearchAppBarState.CLOSED,
-        {}
+        searchAppBarState = SearchAppBarState.CLOSED,
+        highPriorityTasks = emptyList(),
+        sortState = RequestState.Success(Priority.NONE),
+        lowPriorityTasks = emptyList(),
+        searchedTasksRequestState = RequestState.Success(emptyList()),
+        navigateToTaskScreen = {}
     )
 }
