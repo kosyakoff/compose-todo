@@ -12,6 +12,11 @@
     <string name="task_app_bar_new_task_add_task_text">Add Task</string>
     <string name="task_content_title_title">Title</string>
     <string name="task_content_description_title">Description</string>
+    <string name="task_delete_task">Remove \'%1$s\'?</string>
+    <string name="task_delete_task_confirmation">Are you sure you want to remove \'%1$s\'?</string>
     <string name="general_ok">OK</string>
+    <string name="general_yes">Yes</string>
+    <string name="general_no">No</string>
     <string name="general_undo">UNDO</string>
+    <string name="list_all_tasks_removed_message">All tasks removed</string>
 </resources>
