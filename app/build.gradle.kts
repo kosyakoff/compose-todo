@@ -54,6 +54,7 @@ android {
 dependencies {
 
     implementation("androidx.navigation:navigation-compose:2.6.0")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     implementation("com.google.dagger:hilt-android:2.46.1")
     implementation("androidx.core:core-ktx:1.10.1")

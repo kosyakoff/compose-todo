@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import test.app.todocompose.data.models.Priority
 import test.app.todocompose.data.models.ToDoTask
+import test.app.todocompose.data.repositories.DataStoreRepository
 import test.app.todocompose.data.repositories.ToDoRepository
 import test.app.todocompose.util.Action
 import test.app.todocompose.util.Constants
@@ -20,7 +21,10 @@ import test.app.todocompose.util.SearchAppBarState
 import javax.inject.Inject
 
 @HiltViewModel
-class SharedViewModel @Inject constructor(private val repository: ToDoRepository) : ViewModel() {
+class SharedViewModel @Inject constructor(
+    private val repository: ToDoRepository,
+    private val dataStoreRepository: DataStoreRepository
+) : ViewModel() {
 
     private val _searchedTasks = MutableStateFlow<RequestState<List<ToDoTask>>>(RequestState.Idle)
     private val _selectedTask: MutableStateFlow<ToDoTask?> = MutableStateFlow(null)
