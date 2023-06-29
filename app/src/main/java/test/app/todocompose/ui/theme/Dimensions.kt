@@ -12,6 +12,8 @@ object Dimensions {
 
     val TOP_APP_BAR_HEIGHT = 64.dp
 
+    val APP_LOGO_SIZE = 100.dp
+
     val SEARCH_APP_BAR_ELEVATION = 4.dp
 
     val TASK_ITEM_ELEVATION = 2.dp

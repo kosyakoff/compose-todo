@@ -6,6 +6,7 @@ object Constants {
 
     const val LIST_SCREEN = "list/{action}"
     const val TASK_SCREEN = "task/{taskId}"
+    const val SPLASH_SCREEN = "splash"
 
     const val LIST_ARGUMENT_KEY = "action"
     const val TASK_ARGUMENT_KEY = "taskId"
@@ -14,7 +15,9 @@ object Constants {
     const val PREVIEW_DARK_MODE = "DarkMode"
 
     const val PREVIEW_LOREM_LARGE = 100
-    const val PREVIEW_LOREM_SMALL = 30
+
+    const val SPLASH_SCREEN_DELAY = 3000L
+    const val SPLASH_SCREEN_LOGO_ANIMATION_DURATION = 1000
 
     const val MAX_TITLE_LENGTH = 20
 
