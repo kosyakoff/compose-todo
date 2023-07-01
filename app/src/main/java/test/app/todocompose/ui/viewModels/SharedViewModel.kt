@@ -159,8 +159,6 @@ class SharedViewModel @Inject constructor(
 
             Action.NO_ACTION -> {}
         }
-
-        this.action.value = Action.NO_ACTION
     }
 
     fun persistSortState(priority: Priority) {

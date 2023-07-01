@@ -33,6 +33,7 @@ import test.app.todocompose.util.SearchAppBarState
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ListScreen(
+    action: Action,
     navigateToTaskScreen: (taskId: Int) -> Unit,
     sharedViewModel: SharedViewModel
 ) {
@@ -41,8 +42,11 @@ fun ListScreen(
         sharedViewModel.getAllTasks()
         sharedViewModel.readSortState()
     }
+    
+    LaunchedEffect(key1 = action ) {
+        sharedViewModel.handleDatabaseActions(action)
+    }
 
-    val action by sharedViewModel.action
     val sortState by sharedViewModel.sortState.collectAsState()
     val lowPriorityTasks by sharedViewModel.lowPriorityTasks.collectAsState()
     val highPriorityTasks by sharedViewModel.highPriorityTasks.collectAsState()
@@ -55,7 +59,7 @@ fun ListScreen(
 
     DisplaySnackBar(
         snackBarHostState = snackBarHostState,
-        handleDatabaseAction = { sharedViewModel.handleDatabaseActions(action) },
+        onComplete = { sharedViewModel.action.value = it },
         taskTitle = sharedViewModel.title.value,
         action = action,
         onUndoClicked = {
@@ -114,12 +118,12 @@ fun ListFab(
 @Composable
 fun DisplaySnackBar(
     snackBarHostState: SnackbarHostState,
-    handleDatabaseAction: () -> Unit,
+    onComplete: (Action) -> Unit,
     taskTitle: String,
     action: Action,
     onUndoClicked: (Action) -> Unit
 ) {
-    handleDatabaseAction()
+
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = action) {
@@ -135,6 +139,7 @@ fun DisplaySnackBar(
                     onUndoClicked = onUndoClicked
                 )
             }
+            onComplete(Action.NO_ACTION)
         }
     }
 }
