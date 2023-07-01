@@ -65,30 +65,9 @@ class SharedViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
-    fun readSortState() {
-        _sortState.update { RequestState.Loading }
-        try {
-            viewModelScope.launch {
-                dataStoreRepository.readSortState.map { Priority.valueOf(it) }.collect { state ->
-                    _sortState.update { RequestState.Success(state) }
-                }
-            }
-        } catch (ex: Throwable) {
-            _sortState.update { RequestState.Error(error = ex) }
-        }
-    }
-
-    fun getAllTasks() {
-        _allTask.update { RequestState.Loading }
-        try {
-            viewModelScope.launch {
-                repository.getAllTask.collect { tasks ->
-                    _allTask.update { RequestState.Success(tasks) }
-                }
-            }
-        } catch (ex: Throwable) {
-            _allTask.update { RequestState.Error(error = ex) }
-        }
+    init {
+        getAllTasks()
+        readSortState()
     }
 
     fun searchTasks(searchQuery: String) {
@@ -206,6 +185,32 @@ class SharedViewModel @Inject constructor(
     private fun deleteAllTasks() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAllTasks()
+        }
+    }
+
+    private fun getAllTasks() {
+        _allTask.update { RequestState.Loading }
+        try {
+            viewModelScope.launch {
+                repository.getAllTask.collect { tasks ->
+                    _allTask.update { RequestState.Success(tasks) }
+                }
+            }
+        } catch (ex: Throwable) {
+            _allTask.update { RequestState.Error(error = ex) }
+        }
+    }
+
+    private fun readSortState() {
+        _sortState.update { RequestState.Loading }
+        try {
+            viewModelScope.launch {
+                dataStoreRepository.readSortState.map { Priority.valueOf(it) }.collect { state ->
+                    _sortState.update { RequestState.Success(state) }
+                }
+            }
+        } catch (ex: Throwable) {
+            _sortState.update { RequestState.Error(error = ex) }
         }
     }
 }
