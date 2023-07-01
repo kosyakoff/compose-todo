@@ -3,17 +3,12 @@ package test.app.todocompose.ui.screens.task
 import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import test.app.todocompose.data.models.Priority
@@ -35,8 +30,9 @@ fun TaskScreen(
     val description: String by sharedViewModel.description
     val priority: Priority by sharedViewModel.priority
 
-    BackHandler(onBackPressed = { navigateToListScreen(Action.NO_ACTION) })
-
+    BackHandler() {
+        navigateToListScreen(Action.NO_ACTION)
+    }
 
     Scaffold(topBar = {
         TaskAppBar(navigateToListScreen = { action ->
@@ -58,30 +54,6 @@ fun TaskScreen(
             )
         }
     })
-}
-
-@Composable
-fun BackHandler(
-    backPressedDispatcher: OnBackPressedDispatcher? = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher,
-    onBackPressed: () -> Unit
-) {
-    val currentOnBackPressed by rememberUpdatedState(newValue = onBackPressed)
-    val backCallback = remember {
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                currentOnBackPressed()
-            }
-        }
-    }
-
-    DisposableEffect(key1 = backPressedDispatcher) {
-        backPressedDispatcher?.addCallback(backCallback)
-
-        onDispose {
-            backCallback.remove()
-        }
-    }
-
 }
 
 private fun displayToast(context: Context) {
