@@ -11,22 +11,20 @@ import test.app.todocompose.util.Action
 import test.app.todocompose.util.Constants
 
 fun NavGraphBuilder.listComposable(
-    navigateToTaskScreen: (taskId: Int) -> Unit,
-    sharedViewModel: SharedViewModel
+    navigateToTaskScreen: (taskId: Int) -> Unit, sharedViewModel: SharedViewModel
 ) {
     composable(
-        route = Constants.LIST_SCREEN,
-        arguments = listOf(navArgument(Constants.LIST_ARGUMENT_KEY) {
+        route = Constants.LIST_SCREEN, arguments = listOf(navArgument(Constants.LIST_ARGUMENT_KEY) {
             type = NavType.StringType
         })
     ) { navBackStackEntry ->
         val action = navBackStackEntry.arguments?.getString(Constants.LIST_ARGUMENT_KEY)
             ?.let { Action.valueOf(it) } ?: Action.NO_ACTION
-        
+
         LaunchedEffect(key1 = action) {
             sharedViewModel.action.value = action
         }
-        
+
         ListScreen(navigateToTaskScreen = navigateToTaskScreen, sharedViewModel = sharedViewModel)
     }
 }

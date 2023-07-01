@@ -19,6 +19,9 @@ object Constants {
     const val SPLASH_SCREEN_DELAY = 3000L
     const val SPLASH_SCREEN_LOGO_ANIMATION_DURATION = 1000
 
+    const val SCREEN_TRANSITION_ANIMATION_LENGTH = 2000
+    const val SCREEN_TRANSITION_ANIMATION_LENGTH_SHORT = 400
+
     const val MAX_TITLE_LENGTH = 20
 
     const val PREFERENCE_NAME = "todo_preferences"
