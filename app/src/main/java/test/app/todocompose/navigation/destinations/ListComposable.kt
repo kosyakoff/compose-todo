@@ -32,14 +32,12 @@ fun NavGraphBuilder.listComposable(
         LaunchedEffect(key1 = myAction) {
             if (action != myAction) {
                 myAction = action
-                sharedViewModel.action.value = action
+                sharedViewModel.updateAction(action)
             }
         }
 
-        val databaseAction by sharedViewModel.action
-
         ListScreen(
-            action = databaseAction,
+            action = sharedViewModel.action,
             navigateToTaskScreen = navigateToTaskScreen,
             sharedViewModel = sharedViewModel
         )
