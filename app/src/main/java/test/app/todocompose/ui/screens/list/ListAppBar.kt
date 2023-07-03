@@ -158,25 +158,15 @@ fun SortAction(
             tint = MaterialTheme.colorScheme.topAppBarContentColor
         )
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-            DropdownMenuItem(text = {
-                PriorityItem(priority = Priority.LOW)
-            }, onClick = {
-                expanded = false
-                onSortClicked(Priority.LOW)
-            })
-            DropdownMenuItem(text = {
-                PriorityItem(priority = Priority.HIGH)
-            }, onClick = {
-                expanded = false
-                onSortClicked(Priority.HIGH)
-            })
-            DropdownMenuItem(text = {
-                PriorityItem(priority = Priority.NONE)
-            }, onClick = {
-                expanded = false
-                onSortClicked(Priority.NONE)
-            })
 
+            Priority.values().filter { it != Priority.MEDIUM }.forEach {
+                DropdownMenuItem(text = {
+                    PriorityItem(priority = it)
+                }, onClick = {
+                    expanded = false
+                    onSortClicked(it)
+                })
+            }
         }
     }
 }
